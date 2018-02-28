@@ -1,49 +1,53 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import wrapWithLoadData from './wrapWithLoadData';
-
 class CommentInput extends Component{
     static propTypes = {
+        username: PropTypes.any,
         onSubmit: PropTypes.func,
-        data: PropTypes.any,
-        saveData: PropTypes.func.isRequired
+        onUserNameInputBlur: PropTypes.func
     }
 
-    constructor(props){
-        super(props);
+    static defaultProps = {
+        username: ''
+    }
+
+    constructor (props) {
+        super(props)
         this.state = {
-            username: props.data,
+            username: props.username, // 从 props 上取 username 字段
             content: ''
         }
     }
 
-    componentDidMount(){
-        this.textarea.focus();
+    componentDidMount () {
+        this.textarea.focus()
     }
 
-    handleUsernameChange(event){
+    handleUsernameBlur (event) {
+        if (this.props.onUserNameInputBlur) {
+            this.props.onUserNameInputBlur(event.target.value)
+        }
+    }
+
+    handleUsernameChange (event) {
         this.setState({
             username: event.target.value
         })
     }
 
-    handleUsernameBlur(event){
-        this.props.saveData(event.target.value)
-    }
-
-    handleContentChange(event){
+    handleContentChange (event) {
         this.setState({
             content: event.target.value
         })
     }
 
-    handleSubmit(){
-        if(this.props.onSubmit){
+    handleSubmit () {
+        if (this.props.onSubmit) {
             this.props.onSubmit({
-                username: this.state.username,
-                content: this.state.content,
-                createdTime: +new Date()
+            username: this.state.username,
+            content: this.state.content,
+            createdTime: +new Date()
             })
         }
         this.setState({ content: '' })
@@ -79,7 +83,5 @@ class CommentInput extends Component{
         )
     }
 }
-
-CommentInput = wrapWithLoadData(CommentInput, 'username');
 
 export default CommentInput;

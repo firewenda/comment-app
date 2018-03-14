@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 body {
   margin: 0;
   padding: 0;
@@ -130,4 +131,27 @@ code {
   border: 1px solid #ccc;
   background: #f9f9f9;
   padding: 0px 2px;
+}
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 20px;
+  line-height: 20px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}
+
+.editor-wrap {
+  position: relative;
+  height: auto;
+  margin-top: 50px;
+  padding: 5px;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.1);
+  font-family: initial;
 }

@@ -12,18 +12,22 @@ export default class richEdit extends React.Component {
     }
 
     handleChange = (content) => {
-        console.log(content)
+        // console.log(content)
         this.setState({
             htmlContent: content
         })
     }
 
     handleRawChange = (rawContent) => {
-        console.log(rawContent)
+        // console.log(rawContent)
     }
 
-    handleSave = (content) => {
-        console.log(content)
+    handleSave = () => {
+        console.log(this.state.htmlContent)
+    }
+
+    handleBlur = (event) => {
+        console.log(event)
     }
 
     render() {
@@ -67,25 +71,39 @@ export default class richEdit extends React.Component {
 
         }
 
+        // 不允许选择大于100K的文件
+        const validateFn = (file) => {
+            return file.size < 1024 * 100
+        }
+
         const editorProps = {
             placeholder: 'Hello World!',
             contentFormat: 'html',
             initialContent: '',
+            height: 300,
             media: {
                 image: true, // 开启图片插入功能
                 video: false, // 开启视频插入功能
                 audio: false, // 开启音频插入功能
-                uploadFn: uploadFn, // 指定上传函数，说明见下文
+                uploadFn: uploadFn, // 指定上传函数
+                validateFn: validateFn, //指定图片大小校验函数
+                // 如果以上三个值皆为false，则不允许插入任何外部媒体，也不会显示插入外部媒体的入口
+                externalMedias: {
+                    image: false,
+                    audio: false,
+                    video: false
+                }
             },
             controls: [
-                'undo', 'redo', 'split', 'font-size', 'font-family', 'line-height', 'letter-spacing',
-                'indent', 'text-color', 'bold', 'italic', 'underline', 'strike-through',
-                'superscript', 'subscript', 'emoji', 'text-align', 'split', 'headings', 'list_ul',
-                'list_ol', 'blockquote', 'code', 'split', 'link', 'split', 'hr', 'split', 'media'
+                'undo', 'redo', 'split', 'font-size', /*'font-family', 'line-height', 'letter-spacing',
+                'indent',*/ 'text-color', 'bold', 'italic', 'underline', 'strike-through',
+                /*'superscript', 'subscript',*/ 'emoji', 'text-align', 'split', 'headings', 'list_ul',
+                'list_ol', 'blockquote', 'code', 'split', /*'link', 'split',*/ 'hr', 'split', 'media'
             ],
             onChange: this.handleChange,
             onRawChange: this.handleRawChange,
             onSave: this.handleSave,
+            onBlur: this.handleBlur,
             // 增加自定义预览按钮
             extendControls: [
                 {
